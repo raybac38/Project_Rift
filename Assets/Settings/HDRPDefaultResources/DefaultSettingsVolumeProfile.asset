@@ -18,7 +18,6 @@ MonoBehaviour:
     m_Value:
     - {fileID: 11400000, guid: 404820c4cf36ad944862fa59c56064f0, type: 2}
     - {fileID: 11400000, guid: 2384dbf2c1c420f45a792fbc315fbfb1, type: 2}
-    - {fileID: 11400000, guid: 879ffae44eefa4412bb327928f1a96dd, type: 2}
 --- !u!114 &-7089757308646879465
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -113,7 +112,7 @@ MonoBehaviour:
     m_Value: 0.15
   m_SampleCount:
     m_OverrideState: 0
-    m_Value: 10
+    m_Value: 8
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,10 +547,10 @@ MonoBehaviour:
     m_Value: 0
   m_MaximumRadiusInPixels:
     m_OverrideState: 0
-    m_Value: 40
+    m_Value: 32
   m_BilateralUpsample:
     m_OverrideState: 0
-    m_Value: 1
+    m_Value: 0
   m_DirectionCount:
     m_OverrideState: 0
     m_Value: 2
