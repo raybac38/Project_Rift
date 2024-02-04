@@ -8,70 +8,65 @@ using Unity.Services.Core;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using System.Threading.Tasks;
+using Unity.Networking.Transport.Relay;
 
 public class Relay : MonoBehaviour
 {
-    String hostCode = null;
-    private async void Start()
+
+    /// <summary>
+    /// Creates a relay server allocation and start a host
+    /// </summary>
+    /// <param name="maxConnections">The maximum amount of clients that can connect to the relay</param>
+    /// <returns>The join code</returns>
+    public async Task<string> StartHostWithRelay(int maxConnections = 5)
     {
+        //Initialize the Unity Services engine
         await UnityServices.InitializeAsync();
-        AuthenticationService.Instance.SignedIn += () =>
+        //Always authenticate your users beforehand
+        if (!AuthenticationService.Instance.IsSignedIn)
         {
-            Debug.Log("Signed in" +  AuthenticationService.Instance.PlayerId);
-        };
-
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
-    }
-
-    public async void CreateRelay(MultiplayerInterface multiplayerInterface)
-    {
-        try{
-            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(3);
-            hostCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetHostRelayData(
-                allocation.RelayServer.IpV4,
-                (ushort)allocation.RelayServer.Port,
-                allocation.AllocationIdBytes,
-                allocation.Key,
-                allocation.ConnectionData
-            );
-            NetworkManager.Singleton.StartHost();
-        }catch(RelayServiceException e)
-        {
-            Debug.Log(e);
-            hostCode = null;
+            //If not already logged, log the user in
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
-        multiplayerInterface.WriteHostCode(hostCode);
 
+        // Request allocation and join code
+        Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
+        var joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+        // Configure transport
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(allocation, "dtls"));
+        // Start host
+        return NetworkManager.Singleton.StartHost() ? joinCode : null;
     }
 
-    public async void JoinRelay(String joincode, MultiplayerInterface multiplayerInterface)
+    /// <summary>
+    /// Join a Relay server based on the JoinCode received from the Host or Server
+    /// </summary>
+    /// <param name="joinCode">The join code generated on the host or server</param>
+    /// <returns>True if the connection was successful</returns>
+    public async Task<bool> StartClientWithRelay(string joinCode)
     {
-        hostCode = joincode;
-        try{
-
-            JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(hostCode);
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetClientRelayData(
-                joinAllocation.RelayServer.IpV4,
-                (ushort)joinAllocation.RelayServer.Port,
-                joinAllocation.AllocationIdBytes,
-                joinAllocation.Key,
-                joinAllocation.ConnectionData,
-                joinAllocation.HostConnectionData
-            );
-
-            NetworkManager.Singleton.StartClient();
-        }catch(RelayServiceException e)
+        //Initialize the Unity Services engine
+        await UnityServices.InitializeAsync();
+        //Always authenticate your users beforehand
+        if (!AuthenticationService.Instance.IsSignedIn)
         {
-            Debug.Log(e);
-            hostCode = null;
+            //If not already logged, log the user in
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
-        multiplayerInterface.WriteHostCode(hostCode);
+
+        // Join allocation
+        var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode: joinCode);
+        // Configure transport
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(joinAllocation, "dtls"));
+        // Start client
+        return !string.IsNullOrEmpty(joinCode) && NetworkManager.Singleton.StartClient();
     }
 
-    public string GetHostCode()
+    public void ShutDownConnexion()
     {
-        return hostCode;
+        
+        NetworkManager.Singleton.Shutdown();
+        
     }
 }

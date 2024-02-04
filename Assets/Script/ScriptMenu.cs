@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using System;
+using TMPro;
+using Unity.VisualScripting;
 
-public class ScriptMenu : NetworkBehaviour
+public class ScriptMenu : MonoBehaviour
 {
 
+    public Relay relay;
     private readonly float transitionDuration = 1.5f;
     public GameObject menuPrincipale;
     public GameObject menuConnexion;
@@ -20,6 +23,13 @@ public class ScriptMenu : NetworkBehaviour
     private Menu actualMenu = Menu.principale;
 
     private bool isTransition = false;
+
+
+    public CanvasGroup warningCanvasGroup;
+
+    public TextMeshProUGUI inputField;
+    public TextMeshProUGUI joinCode;
+
     private void Awake()
     {
         menuPrincipaleCG = menuPrincipale.GetComponent<CanvasGroup>();
@@ -29,6 +39,7 @@ public class ScriptMenu : NetworkBehaviour
         menuPrincipaleCG.alpha = 1;
         menuConnexionCG.alpha = 0;
         menuPartyCG.alpha = 0;
+        warningCanvasGroup.alpha = 0;
     }
 
 
@@ -45,23 +56,49 @@ public class ScriptMenu : NetworkBehaviour
         Application.Quit();
     }
 
-    public void Host_button()
+    public async void Host_button()
     {
+        String code = await relay.StartHostWithRelay(4);
+        joinCode.text = code;
+        MenuTransition(Menu.party);
 
     }
 
-    public void Client_button()
+    public async void Client_button()
     {
-
+        String code = inputField.text;
+        code = code.Substring(0, 6);
+        bool isConnected = await relay.StartClientWithRelay(code);
+        if(!isConnected)
+        {
+            ///Connextion echouer
+            WarningTexteAnimation();
+        }
+        else
+        {
+            joinCode.text = code;
+            MenuTransition(Menu.party);
+        }
     }
 
     public void Return_button()
     {
-
+        switch (actualMenu)
+        {
+            case Menu.party:
+                MenuTransition(Menu.connexion);
+                joinCode.text = "";
+                break;
+            case Menu.connexion:
+                MenuTransition(Menu.principale);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(actualMenu), actualMenu, "Correspondance invalide");
+        }
     }
     public void Kickoff_button()
     {
-
+        Debug.Log("Lancement de la parti ! ");
     }
     public enum Menu
     {
@@ -86,6 +123,8 @@ public class ScriptMenu : NetworkBehaviour
         CanvasGroup canvasGroup2 = GetCanvasGroupFromMenu(newMenu);
 
         StartCoroutine(TransitionAnimation(canvasGroup1, canvasGroup2));
+
+        actualMenu = newMenu;
 
     }
 
@@ -132,5 +171,38 @@ public class ScriptMenu : NetworkBehaviour
         }
     }
     
+
+
+    private bool isWarningShow = false;
+    private void WarningTexteAnimation()
+    {
+        if(isWarningShow) return;
+        isWarningShow = true;
+        StartCoroutine(WarningAnimation());
+    }
+
+    IEnumerator WarningAnimation()
+    {
+        float timer = 0f;
+        while(timer < transitionDuration)
+        {
+            warningCanvasGroup.alpha = Mathf.Lerp(0, 1, timer / transitionDuration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        warningCanvasGroup.alpha = 1;
+        yield return new WaitForSecondsRealtime(transitionDuration);
+        
+        timer = 0;
+        while(timer < transitionDuration)
+        {
+            warningCanvasGroup.alpha = Mathf.Lerp(1, 0, timer / transitionDuration);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        warningCanvasGroup.alpha = 0;
+
+        isWarningShow = false;
+    }
     
 }
