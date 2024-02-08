@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using UnityEngine;
 
 public class Leafs : MonoBehaviour
@@ -56,7 +56,7 @@ public class Leafs : MonoBehaviour
 
         if (surfaceTriangle.Length == 0)
         {
-            throw new Exception("Triangle Array Empty");
+            throw new System.Exception("Triangle Array Empty");
 
         }
         float randomSurface = Random.Range(0f, totalSurface);
@@ -73,9 +73,9 @@ public class Leafs : MonoBehaviour
 
     private Vector3 GenerateRandomPointOnTriangle(int indexTriangle)
     {
-        Vector3 u = verticies[triangle[indexTriangle]];
-        Vector3 v = verticies[triangle[indexTriangle + 1]];
-        Vector3 w = verticies[triangle[indexTriangle + 2]];
+        Vector3 u = vertices[triangles[indexTriangle]];
+        Vector3 v = vertices[triangles[indexTriangle + 1]];
+        Vector3 w = vertices[triangles[indexTriangle + 2]];
 
         Vector3 scalaire = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)).normalized;
 

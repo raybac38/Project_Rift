@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="500" height="500" viewBox="0 0 500 500" xml:space="preserve">
+<desc>Created with Fabric.js 5.3.0</desc>
+<defs>
+</defs>
+<g transform="matrix(7.8480000022 0 0 7.8479999992 250.00005 250.0000500001)" id="-lfXp_nSycqFHfVPXR2Gu"  >
+<path style="stroke: rgb(0,0,0); stroke-width: 2; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;"  transform=" translate(0, 0)" d="M 0 -28.66972 C 15.82569 -28.66972 28.66972 -15.825680000000002 28.66972 0 C 28.66972 15.82569 15.825680000000002 28.66972 0 28.66972 C -15.82569 28.66972 -28.66972 15.825680000000002 -28.66972 0 C -28.66972 -15.82569 -15.825680000000002 -28.66972 0 -28.66972 z" stroke-linecap="round" />
+</g>
+<g transform="matrix(1 0 0 1 -18.9220183486 323.1840754145)" id="0GVtLLXqJAsPGSGGPjjUD"  >
+<path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;"  transform=" translate(0, 0)" d="M 0 0" stroke-linecap="round" />
+</g>
+<g transform="matrix(0.9975640503 0.0697564737 -0.0697564737 0.9975640503 251.2737297919 218.6608917742)" id="kOwrknZCBfrUjFZI8AMFI"  >
+<path style="stroke: rgb(0,0,0); stroke-width: 15; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 1;"  transform=" translate(0, 0)" d="M 69.68086 -183.108 L 55.164359999999995 -187.29995 L 36.063829999999996 -191.33726 L 18.153129999999997 -192.8061 L -0.2774900000000038 -194.10762 L -18.644020000000005 -192.82331 L -38.08008000000001 -190.13182 L -57.464020000000005 -184.79716 L -97.94056 -34.133970000000005 L -32.05039000000001 -38.741460000000004 L -68.44029 69.20564 L -24.7158 66.14813000000001 L -56.97059 188.99206 L -56.97059 188.99206 C -57.461600000000004 190.8621 -56.57242 192.81996 -54.84118 193.68075000000002 C -53.10994 194.54153000000002 -51.01224 194.06878 -49.8176 192.54859000000002 L 88.20303999999999 16.916050000000013 L 45.441149999999986 19.906250000000014 L 97.94053 -87.34982999999998 L 51.07178 -84.07244999999999 L 87.05242 -176.29030999999998 z" stroke-linecap="round" />
+</g>
+</svg>
