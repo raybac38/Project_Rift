@@ -1,0 +1,25 @@
+4 Classe
+
+-Tank :
+    - ctrl : met sont bouclier et faire une zone protégé en arrière
+
+-Epéiste :
+    - ctrl : Permet d'effectuer une roulade pour esquivé
+
+-Mage :
+    - ctrl : permet d'effectuer une teleportation courte pour esquivé
+
+    Gameplay du Mage :
+
+    Pour lancer un sort, le mage vas s'imobilisé pendant la durée de cast
+    
+
+
+
+
+
+
+-Soutient :
+    -ctrl : permet d'être intengible pendant un petit moment (empèche l'utilisation de sort)
+
+
